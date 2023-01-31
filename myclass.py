@@ -32,13 +32,29 @@ class Board:
         self.living_ships = living_ships
         self.hid = hid
 
-    def add_ship(self, ship=Ship):
-        _dots = ship.dots()
-        for dot in _dots:
+    def add_ship(self, dots):
+        for dot in dots:
+            if self.field[dot.y - 1][dot.x - 1] != '0':  # checking the ship's location points
+                return False
+        for dot in dots:
             self.field[dot.y - 1][dot.x - 1] = '■'
 
     def contour(self):
-        pass
+        for y in range(len(self.field)):
+            for x in range(len(self.field[y])):
+                if self.field[y][x] == '■':
+                    if x + 1 < 6:
+                        if self.field[y][x + 1] != '■':
+                            self.field[y][x + 1] = '-'  # right
+                    if y + 1 < 6:
+                        if self.field[y + 1][x] != '■':
+                            self.field[y + 1][x] = '-'  # down
+                    if x - 1 >= 0:
+                        if self.field[y][x - 1] != '■':
+                            self.field[y][x - 1] = '-'  # left
+                    if y - 1 >= 0:
+                        if self.field[y - 1][x] != '■':
+                            self.field[y - 1][x] = '-'  # up
 
     def print_board(self):
         pass
