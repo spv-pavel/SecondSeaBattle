@@ -26,7 +26,7 @@ class Ship:
 
 
 class Board:
-    def __init__(self, field, ships, living_ships, hid):
+    def __init__(self, field, ships, living_ships, hid=bool):
         self.field = field
         self.ships = ships
         self.living_ships = living_ships

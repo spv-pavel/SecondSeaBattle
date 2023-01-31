@@ -1,8 +1,8 @@
 
-def field_print(field_):
-    if field_ == field_player:
+def print_field(field_):
+    if field_ == player_field:
         print('поле игрока:')
-    if field_ == field_computer:
+    if field_ == computer_field:
         print('поле компьютера:')
     print('  |', end=' ')
     for i_ in range(1, len(field_[0]) + 1):
@@ -16,9 +16,9 @@ def field_print(field_):
     return ''
 
 
-field_player = [['0' for x in range(6)] for y in range(6)]
-field_computer = [['0' for x1 in range(6)] for y1 in range(6)]
+player_field = [['0' for x in range(6)] for y in range(6)]
+computer_field = [['0' for x1 in range(6)] for y1 in range(6)]
 
-field_player[0][0] = '■'
-# field_print(field_player)
-# field_print(field_computer)
+player_field[0][0] = '■'
+# print_field(player_field)
+# print_field(computer_field)
