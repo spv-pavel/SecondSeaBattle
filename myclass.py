@@ -8,7 +8,7 @@ class Dot:
 
 
 class Ship:
-    def __init__(self, dot=Dot, length=1, orientation='h'):
+    def __init__(self, dot, length=1, orientation='h'):
         self.dot = dot
         self.length = length
         self.orientation = orientation
@@ -26,8 +26,8 @@ class Ship:
 
 
 class Board:
-    def __init__(self, name, field, ships, living_ships, hid=bool):
-        self.name = name
+    def __init__(self, name_owner, field, ships, living_ships, hid=True):
+        self.name_owner = name_owner
         self.field = field
         self.ships = ships
         self.living_ships = living_ships
@@ -58,9 +58,9 @@ class Board:
                             self.field[y - 1][x] = '-'  # up
 
     def print_board(self):
-        if self.name == 'player':
+        if self.name_owner == 'player':
             print('поле игрока:')
-        if self.name == 'computer':
+        if self.name_owner == 'computer':
             print('поле компьютера:')
         print('  |', end=' ')
         for i in range(1, len(self.field[0]) + 1):
@@ -104,7 +104,7 @@ class Game:
         self.user = user
         self.user_bord = user_bord
         self.ai = ai
-        self.ai_bord =ai_bord
+        self.ai_bord = ai_bord
 
     def random_board(self):
         pass
