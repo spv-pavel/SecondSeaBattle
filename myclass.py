@@ -26,7 +26,8 @@ class Ship:
 
 
 class Board:
-    def __init__(self, field, ships, living_ships, hid=bool):
+    def __init__(self, name, field, ships, living_ships, hid=bool):
+        self.name = name
         self.field = field
         self.ships = ships
         self.living_ships = living_ships
@@ -57,7 +58,20 @@ class Board:
                             self.field[y - 1][x] = '-'  # up
 
     def print_board(self):
-        pass
+        if self.name == 'player':
+            print('поле игрока:')
+        if self.name == 'computer':
+            print('поле компьютера:')
+        print('  |', end=' ')
+        for i in range(1, len(self.field[0]) + 1):
+            print(i, '|', end=' ')
+        print('\n', end='')
+        for ny, y in enumerate(range(len(self.field))):
+            print(ny + 1, '|', end=' ')
+            for x in range(len(self.field[y])):
+                print(self.field[y][x], '|', end=' ')
+            print('\n', end='')
+        return ''
 
     def out(self):
         pass
