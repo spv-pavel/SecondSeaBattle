@@ -15,5 +15,5 @@ print(dot1.y, dot1.x)
 player_board = Board(player_field, player_ships, player_living_ships, True)
 player_board.add_ship(ship1)
 
-# print_field(player_field)
+print_field(player_field)
 # print(_dots[2][1])

@@ -15,13 +15,13 @@ class Ship:
         self.lives = length
 
     def dots(self):
-        _dots = [[self.dot.y, self.dot.x]]
+        _dots = [self.dot]
         if self.length > 1:
             for i in range(1, self.length):
                 if self.orientation == 'h':
-                    _dots.append([self.dot.y, self.dot.x + i])
+                    _dots.append(Dot(self.dot.y, self.dot.x + i))
                 if self.orientation == 'v':
-                    _dots.append([self.dot.y + i, self.dot.x])
+                    _dots.append(Dot(self.dot.y + i, self.dot.x))
         return _dots
 
 
@@ -35,7 +35,7 @@ class Board:
     def add_ship(self, ship=Ship):
         _dots = ship.dots()
         for dot in _dots:
-            self.field[dot[0]][dot[1]] = '■'
+            self.field[dot.y - 1][dot.x - 1] = '■'
 
     def contour(self):
         pass
