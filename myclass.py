@@ -83,7 +83,6 @@ class Board:
         return True
 
     def shot(self, dot):
-        print(dot)
         if not Board.out(dot):
             return False
         if self.field[dot.y][dot.x] == 'X' or self.field[dot.y][dot.x] == 'T':
@@ -97,13 +96,13 @@ class Board:
 
 
 class Player:
-    def __init__(self, self_board=Board, opponent_board=Board):
+    def __init__(self, self_board, opponent_board):
         self.self_board = self_board
         self.opponent_board = opponent_board
 
     def ask(self):
         p = 'Введите через пробел y, x в диапазоне от 1 до 6:'
-        # dot = False
+        dot = Dot(5, 5)
         while True:
             try:
                 hit_yx_ = list(map(int, input('Удар игрока y, x: ').split()))
@@ -124,10 +123,7 @@ class Player:
         return dot
 
     def move(self):
-        return self.ask()
-        # print(dot)
-        # Board.shot(dot)
-        # return True
+        return self.opponent_board.shot(self.ask())
 
 
 class AI(Player):

@@ -37,10 +37,6 @@ computer_board.print_board()
 player = Player(player_board, computer_board)
 
 for i in range(2):
-    p_dot_hit = player.ask()
-    print(computer_board.shot(p_dot_hit))
-    computer_board.print_board()
-
-# dot = Dot(2 -1, 2 - 1)
-# Board.shot()
-# computer_board.print_board()
+    while True:
+        print(player.move())
+        computer_board.print_board()
