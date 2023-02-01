@@ -100,30 +100,30 @@ class Player:
         self.opponent_board = opponent_board
 
     def ask(self):
+        p = 'Введите через пробел y, x в диапазоне от 1 до 6:'
+        dot = False
         while True:
             try:
                 hit_yx_ = list(map(int, input('Удар игрока y, x: ').split()))
             except ValueError:
-                print('Введите через пробел y, x в диапазоне от 1 до 6:')
+                print(p)
                 continue
             if len(hit_yx_) != 2:
                 print('Введите две цифры через пробел:')
                 continue
             dot = Dot(hit_yx_[0] - 1, hit_yx_[1] - 1)
             if not Board.out(dot):
-                print('Введите y, x в диапазоне от 1 до 6:')
+                print(p)
                 continue
-            if self.opponent_board.field[dot.y][dot.x] == 'X':
+            if self.opponent_board.field[dot.y][dot.x] == 'X' or self.opponent_board.field[dot.y][dot.x] == 'T':
                 print('Повтор, введите другие координаты y, x:')
                 continue
-            #    field_computer_[y_ - 1][x_ - 1] == 'T'):
             break
-        if self.opponent_board.field[dot.y][dot.x] == '■':
-            self.opponent_board.field[dot.y][dot.x] = 'X'
-        else:
-            self.opponent_board.field[dot.y][dot.x] = 'T'
-        return True
-
+        # if self.opponent_board.field[dot.y][dot.x] == '■':
+        #    self.opponent_board.field[dot.y][dot.x] = 'X'
+        # else:
+        #    self.opponent_board.field[dot.y][dot.x] = 'T'
+        return dot
 
     def move(self):
         pass
