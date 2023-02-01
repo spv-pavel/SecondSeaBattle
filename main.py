@@ -31,12 +31,16 @@ computer_board.contour()
 computer_board.add_ship(c_ship2.dots())
 computer_board.contour()
 # player_board.print_board()
-# computer_board.print_board()
+computer_board.print_board()
 
 # p_dot_hit = Dot(1 - 1, 1 - 1)
 player = Player(player_board, computer_board)
-p_dot_hit = player.ask()
-print(p_dot_hit)
-print(player_board.shot(p_dot_hit))
-player_board.print_board()
 
+for i in range(2):
+    p_dot_hit = player.ask()
+    print(computer_board.shot(p_dot_hit))
+    computer_board.print_board()
+
+# dot = Dot(2 -1, 2 - 1)
+# Board.shot()
+# computer_board.print_board()
