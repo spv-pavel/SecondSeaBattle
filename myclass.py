@@ -101,6 +101,19 @@ class Player:
         self.opponent_board = opponent_board
 
     def ask(self):
+        pass
+
+    def move(self):
+        return self.opponent_board.shot(self.ask())
+
+
+class AI(Player):
+    def ask(self):
+        pass
+
+
+class User(Player):
+    def ask(self):
         p = 'Введите через пробел y, x в диапазоне от 1 до 6:'
         dot = Dot(5, 5)
         while True:
@@ -121,19 +134,6 @@ class Player:
                 continue
             break
         return dot
-
-    def move(self):
-        return self.opponent_board.shot(self.ask())
-
-
-class AI(Player):
-    def ask(self):
-        pass
-
-
-class User(Player):
-    def ask(self):
-        pass
 
 
 class Game:

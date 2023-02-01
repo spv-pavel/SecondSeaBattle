@@ -1,4 +1,4 @@
-from myclass import Board, Ship, Dot, Player
+from myclass import Board, Ship, Dot, User
 
 
 player_field = [['0' for x in range(6)] for y in range(6)]
@@ -33,10 +33,11 @@ computer_board.contour()
 # player_board.print_board()
 computer_board.print_board()
 
-# p_dot_hit = Dot(1 - 1, 1 - 1)
-player = Player(player_board, computer_board)
+player = User(player_board, computer_board)
 
-for i in range(2):
-    while True:
-        print(player.move())
+while True:
+    if player.move():
         computer_board.print_board()
+        continue
+    computer_board.print_board()
+    break
