@@ -3,6 +3,9 @@ class Dot:
         self.y = y
         self.x = x
 
+    def __str__(self):
+        return f'[y:{self.y} x:{self.x}]'
+
     def __eq__(self, other):
         return self.y == other.y and self.x == other.x
 
@@ -35,10 +38,10 @@ class Board:
 
     def add_ship(self, dots):  # доработать, добавить исключения размещение вне поля
         for dot in dots:
-            if self.field[dot.y - 1][dot.x - 1] != '0':  # checking the ship's location points
+            if self.field[dot.y][dot.x] != '0':  # checking the ship's location points
                 return False
         for dot in dots:
-            self.field[dot.y - 1][dot.x - 1] = '■'
+            self.field[dot.y][dot.x] = '■'
 
     def contour(self):
         for y in range(len(self.field)):
@@ -77,6 +80,17 @@ class Board:
     def out(dot):
         if dot.y < 0 or dot.y > 5 or dot.x < 0 or dot.x > 5:
             return False
+        return True
+
+    def shot(self, dot):
+        if not Board.out(dot):
+            return False
+        if self.field[dot.y][dot.x] == 'X' or self.field[dot.y][dot.x] == 'T':
+            return False
+        if self.field[dot.y][dot.x] == '■':
+            self.field[dot.y][dot.x] = 'X'
+        else:
+            self.field[dot.y][dot.x] = 'T'
         return True
 
 
