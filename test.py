@@ -3,6 +3,8 @@ from main import player_field
 
 
 dot1, dot2 = Dot(1, 1), Dot(3, 3)
+if not Board.out(dot1):
+    input('Точка вне диапазона!')
 ship1, ship2 = Ship(dot1, 3, 'v'), Ship(dot2, 2)
 player_ships = [ship1, ship2]
 player_living_ships = player_ships

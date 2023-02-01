@@ -33,7 +33,7 @@ class Board:
         self.living_ships = living_ships
         self.hid = hid
 
-    def add_ship(self, dots):
+    def add_ship(self, dots):  # доработать, добавить исключения размещение вне поля
         for dot in dots:
             if self.field[dot.y - 1][dot.x - 1] != '0':  # checking the ship's location points
                 return False
@@ -57,7 +57,7 @@ class Board:
                         if self.field[y - 1][x] != '■':
                             self.field[y - 1][x] = '-'  # up
 
-    def print_board(self):
+    def print_board(self):  # доработать, вывод в зависимости от параметра hid
         if self.name_owner == 'player':
             print('поле игрока:')
         if self.name_owner == 'computer':
@@ -73,8 +73,11 @@ class Board:
             print('\n', end='')
         return ''
 
-    def out(self):
-        pass
+    @staticmethod
+    def out(dot):
+        if dot.y < 0 or dot.y > 5 or dot.x < 0 or dot.x > 5:
+            return False
+        return True
 
 
 class Player:
