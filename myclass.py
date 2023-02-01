@@ -1,3 +1,6 @@
+from random import randrange
+
+
 class Dot:
     def __init__(self, y, x):
         self.y = y
@@ -108,26 +111,33 @@ class Player:
 
 
 class AI(Player):
-    def ask(self):
-        pass
+    def ask(self):  # доработать логику при следующем ударе после попадания
+        while True:
+            dot = Dot(randrange(6), randrange(6))
+            print(dot)
+            if (self.opponent_board.field[dot.y - 1][dot.x - 1] == 'X' or
+                    self.opponent_board.field[dot.y - 1][dot.x - 1] == 'T'):
+                continue
+            else:
+                break
+        return dot
 
 
 class User(Player):
     def ask(self):
-        p = 'Введите через пробел y, x в диапазоне от 1 до 6:'
-        dot = Dot(5, 5)
+        dot = Dot(9, 9)
         while True:
             try:
                 hit_yx_ = list(map(int, input('Удар игрока y, x: ').split()))
             except ValueError:
-                print(p)
+                print('Введите через пробел y, x в диапазоне от 1 до 6:')
                 continue
             if len(hit_yx_) != 2:
                 print('Введите две цифры через пробел:')
                 continue
             dot = Dot(hit_yx_[0] - 1, hit_yx_[1] - 1)
             if not Board.out(dot):
-                print(p)
+                print('Введите через пробел y, x в диапазоне от 1 до 6:')
                 continue
             if self.opponent_board.field[dot.y][dot.x] == 'X' or self.opponent_board.field[dot.y][dot.x] == 'T':
                 print('Повтор, введите другие координаты y, x:')

@@ -1,4 +1,4 @@
-from myclass import Board, Ship, Dot, User
+from myclass import Board, Ship, Dot, User, AI
 
 
 player_field = [['0' for x in range(6)] for y in range(6)]
@@ -30,14 +30,27 @@ computer_board.add_ship(c_ship1.dots())
 computer_board.contour()
 computer_board.add_ship(c_ship2.dots())
 computer_board.contour()
-# player_board.print_board()
+player_board.print_board()
 computer_board.print_board()
 
 player = User(player_board, computer_board)
-
+computer = AI(computer_board, player_board)
 while True:
-    if player.move():
+    while True:
+        if player.move():
+            player_board.print_board()
+            computer_board.print_board()
+            continue
+        player_board.print_board()
         computer_board.print_board()
-        continue
-    computer_board.print_board()
-    break
+        break
+    while True:
+        if computer.move():
+            player_board.print_board()
+            computer_board.print_board()
+            print('ПОПАЛ')
+            continue
+        player_board.print_board()
+        computer_board.print_board()
+        break
+
