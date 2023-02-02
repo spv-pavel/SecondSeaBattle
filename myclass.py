@@ -176,8 +176,32 @@ class Game:
         self.ai_board = board
         return True
 
-    def greet(self):
-        pass
+    def greet(self, start_length_ships):
+        print(f'Вы имеете {len(start_length_ships)} кораблей, из них:')
+        sum_length_ships = {'■■■': 0, '■■': 0, '■': 0}
+        for length in start_length_ships:
+            if length == 3:
+                sum_length_ships['■■■'] += 1
+            if length == 2:
+                sum_length_ships['■■'] += 1
+            if length == 1:
+                sum_length_ships['■'] += 1
+        print(sum_length_ships)
+        print('Расставьте все ваши корабли на вашем игровом поле.\n'
+              'Укажите координаты по "y" и по "x" через пробел.\n'
+              'Координаты должны быть в диапазоне от 1 до 6.\n'
+              'Укажите расположение Ваших кораблей по вертикали или горизонтали')
+        dots = []
+        for length in start_length_ships:
+            if length == 3:
+                ship_yx = list(map(int, input(f'введите координаты первой точки "y" и "x" для ■■■: ').split()))
+                orientation = input(f'введите "v" если корабль вертикальный или "h" если горизонтальный: ')
+                dot = Dot(ship_yx[0] - 1, ship_yx[1] - 1)
+                ship = Ship(dot, length, orientation)
+                dots = ship.dots()
+                self.user_board.add_ship(dots)
+                self.user_board.contour()
+                self.user_board.print_board()
 
     def loop(self):
         pass

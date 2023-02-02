@@ -10,7 +10,8 @@ player_ships = [p_ship1, p_ship2, p_ship3]
 player_living_ships = player_ships
 p_dots1, p_dots2, p_dots3 = p_ship1.dots(), p_ship2.dots(), p_ship3.dots()
 
-start_length_ships = [3, 2, 2, 1, 1, 1, 1]
+# start_length_ships = [3, 2, 2, 1, 1, 1, 1]
+start_length_ships = [3]
 # player_ships, player_living_ships = [], []
 computer_ships, computer_living_ships = [], []
 player_board = Board('player', player_field, player_ships, player_living_ships, True)
@@ -20,17 +21,11 @@ computer = AI(computer_board, player_board)
 
 play = Game(player, player_board, computer, computer_board)
 
-player_board.add_ship(p_ship1.dots())
-player_board.contour()
-player_board.add_ship(p_ship2.dots())
-player_board.contour()
-player_board.add_ship(p_ship3.dots())
-player_board.contour()
-
+play.greet(start_length_ships)
 play.random_board(start_length_ships)
 
-player_board.print_board()
-computer_board.print_board()
+# player_board.print_board()
+# computer_board.print_board()
 
 while True:
     while True:
