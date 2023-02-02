@@ -1,5 +1,5 @@
 from random import randrange
-
+import random
 
 class Dot:
     def __init__(self, y, x):
@@ -41,7 +41,7 @@ class Board:
 
     def add_ship(self, dots):  # доработать, добавить исключения размещение вне поля
         for dot in dots:
-            if self.field[dot.y][dot.x] != '0':  # checking the ship's location points
+            if self.field[dot.y][dot.x] != 'O':  # checking the ship's location points
                 return False
         for dot in dots:
             self.field[dot.y][dot.x] = '■'
@@ -114,9 +114,9 @@ class AI(Player):
     def ask(self):  # доработать логику при следующем ударе после попадания
         while True:
             dot = Dot(randrange(6), randrange(6))
-            print(dot)
-            if (self.opponent_board.field[dot.y - 1][dot.x - 1] == 'X' or
-                    self.opponent_board.field[dot.y - 1][dot.x - 1] == 'T'):
+            # print('Удар ПК: ', dot)
+            if (self.opponent_board.field[dot.y][dot.x] == 'X' or
+                    self.opponent_board.field[dot.y][dot.x] == 'T'):
                 continue
             else:
                 break
@@ -147,14 +147,34 @@ class User(Player):
 
 
 class Game:
-    def __init__(self, user, user_bord, ai, ai_bord):
+    def __init__(self, user, user_board, ai, ai_board):
         self.user = user
-        self.user_bord = user_bord
+        self.user_board = user_board
         self.ai = ai
-        self.ai_bord = ai_bord
+        self.ai_board = ai_board
 
-    def random_board(self):
-        pass
+    def random_board(self, start_length_ships):
+        board = self.ai_board
+        for length in start_length_ships:
+            while True:
+                a = 0
+                dot = Dot(randrange(6), randrange(6))
+                ship = Ship(dot, length, random.choice('hv'))
+                dots = ship.dots()
+                for dot in dots:
+                    if not board.out(dot):
+                        a = 1
+                if a == 1:
+                    continue
+                else:
+                    if board.field[dot.y][dot.x] != 'O':
+                        continue
+                    else:
+                        break
+            board.add_ship(dots)
+            board.contour()
+        self.ai_board = board
+        return True
 
     def greet(self):
         pass
