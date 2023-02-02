@@ -1,5 +1,5 @@
-from random import randrange
 import random
+
 
 class Dot:
     def __init__(self, y, x):
@@ -113,7 +113,7 @@ class Player:
 class AI(Player):
     def ask(self):  # доработать логику при следующем ударе после попадания
         while True:
-            dot = Dot(randrange(6), randrange(6))
+            dot = Dot(random.randrange(6), random.randrange(6))
             # print('Удар ПК: ', dot)
             if (self.opponent_board.field[dot.y][dot.x] == 'X' or
                     self.opponent_board.field[dot.y][dot.x] == 'T'):
@@ -158,7 +158,7 @@ class Game:
         for length in start_length_ships:
             while True:
                 a = 0
-                dot = Dot(randrange(6), randrange(6))
+                dot = Dot(random.randrange(6), random.randrange(6))
                 ship = Ship(dot, length, random.choice('hv'))
                 dots = ship.dots()
                 for dot in dots:
