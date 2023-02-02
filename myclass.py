@@ -1,6 +1,7 @@
 import random
 from accessify import protected
 
+
 class Dot:
     def __init__(self, y, x):
         self.y = y
@@ -20,6 +21,8 @@ class Ship:
         self.orientation = orientation
         self.lives = length
         self.dots = self.dots()
+
+    picture = {3: '■■■', 2: '■■', 1: '■'}
 
     @protected
     def dots(self):
@@ -41,9 +44,9 @@ class Board:
         self.living_ships = living_ships
         self.hid = hid
 
-    def add_ship(self, ship):  # доработать, добавить исключения размещение вне поля
+    def add_ship(self, ship):
         for dot in ship.dots:
-            if self.field[dot.y][dot.x] != 'O':  # checking the ship's location points
+            if self.field[dot.y][dot.x] != 'O':
                 return False
         for dot in ship.dots:
             self.field[dot.y][dot.x] = '■'
@@ -178,6 +181,8 @@ class Game:
         return True
 
     def greet(self, start_length_ships):
+        dot = Dot(0, 0)
+        ship = Ship(dot, 1)
         print(f'Вы имеете {len(start_length_ships)} кораблей, из них:')
         sum_length_ships = {'■■■': 0, '■■': 0, '■': 0}
         for length in start_length_ships:
@@ -193,14 +198,41 @@ class Game:
               'Координаты должны быть в диапазоне от 1 до 6.\n'
               'Укажите расположение Ваших кораблей по вертикали или горизонтали')
         for length in start_length_ships:
-            if length == 3:
-                ship_yx = list(map(int, input(f'введите координаты первой точки "y" и "x" для ■■■: ').split()))
-                orientation = input(f'введите "v" если корабль вертикальный или "h" если горизонтальный: ')
+            while True:
+                a = 0
+                try:
+                    ship_yx = list(map(int, input(f'Введите координаты первой точки "y" и "x" для '
+                                                  f'{Ship.picture[length]}: ').split()))
+                except ValueError:
+                    print('Введите через пробел y, x в диапазоне от 1 до 6:')
+                    continue
+                if len(ship_yx) != 2:
+                    print('Введите две цифры через пробел:')
+                    continue
+                orientation = input(f'введите "v" если корабль должен быть вертикальным'
+                                    f' иначе он будет горизонтальным: ')
+                if orientation != 'v':
+                    orientation = 'h'
                 dot = Dot(ship_yx[0] - 1, ship_yx[1] - 1)
                 ship = Ship(dot, length, orientation)
-                self.user_board.add_ship(ship)
-                self.user_board.contour()
-                self.user_board.print_board()
+                for dot in ship.dots:
+                    if not Board.out(dot):
+                        a = 1
+                if a == 1:
+                    print('Корабль вышел за границы игровой доски!!!\n'
+                          'Введите через пробел y, x в диапазоне от 1 до 6:')
+                    continue
+                else:
+                    if self.user_board.field[dot.y][dot.x] != 'O':
+                        self.user_board.print_board()
+                        print('Место занято!!!\n'
+                              'Введите через пробел y, x в диапазоне от 1 до 6:')
+                        continue
+                    else:
+                        break
+            self.user_board.add_ship(ship)
+            self.user_board.contour()
+            self.user_board.print_board()
 
     def loop(self):
         pass
