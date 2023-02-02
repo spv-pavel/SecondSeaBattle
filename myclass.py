@@ -158,8 +158,8 @@ class Game:
         self.ai = ai
         self.ai_board = ai_board
 
-    def random_board(self, start_length_ships):
-        board = self.ai_board
+    def random_board(self, board_, start_length_ships):
+        board = board_
         for length in start_length_ships:
             while True:
                 a = 0
@@ -177,10 +177,14 @@ class Game:
                         break
             board.add_ship(ship)
             board.contour()
-        self.ai_board = board
+        if board.name_owner == 'player':
+            self.user_board = board
+        else:
+            self.ai_board = board
         return True
 
     def greet(self, start_length_ships):
+
         dot = Dot(0, 0)
         ship = Ship(dot, 1)
         print(f'Вы имеете {len(start_length_ships)} кораблей, из них:')

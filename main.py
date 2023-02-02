@@ -1,11 +1,11 @@
-from myclass import Board, Ship, Dot, User, AI, Game
+from myclass import Board, User, AI, Game
 
 
 player_field = [['O' for x in range(6)] for y in range(6)]
 computer_field = [['O' for x1 in range(6)] for y1 in range(6)]
 
-# start_length_ships = [3, 2, 2, 1, 1, 1, 1]
-start_length_ships = [3, 2]
+start_length_ships = [3, 2, 2, 1, 1, 1, 1]
+# start_length_ships = [3, 2]
 player_ships, player_living_ships = [], []
 computer_ships, computer_living_ships = [], []
 player_board = Board('player', player_field, player_ships, player_living_ships, True)
@@ -15,11 +15,15 @@ computer = AI(computer_board, player_board)
 
 game = Game(player, player_board, computer, computer_board)
 
-game.greet(start_length_ships)
-game.random_board(start_length_ships)
+# game.greet(start_length_ships)
+game.random_board(player_board, start_length_ships)
+game.random_board(computer_board, start_length_ships)
 player_board.print_board()
 computer_board.print_board()
 
+# НЕ ВСЕ КОРБЛИ ВСТАЮТ В ПОЛЕ СЛУЧАЙНЫМ ОБРАЗОМ!!!
+
+'''
 while True:
     while True:
         if player.move():
@@ -38,4 +42,5 @@ while True:
             continue
         player_board.print_board()
         computer_board.print_board()
-        break
+        break 
+'''
