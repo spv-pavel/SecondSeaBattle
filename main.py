@@ -8,7 +8,7 @@ p_dot1, p_dot2, p_dot3 = Dot(1 - 1, 1 - 1), Dot(3 - 1, 3 - 1), Dot(1 - 1, 6 - 1)
 p_ship1, p_ship2, p_ship3 = Ship(p_dot1, 3, 'v'), Ship(p_dot2, 2), Ship(p_dot3, 3, 'v')
 player_ships = [p_ship1, p_ship2, p_ship3]
 player_living_ships = player_ships
-p_dots1, p_dots2, p_dots3 = p_ship1.dots(), p_ship2.dots(), p_ship3.dots()
+p_dots1, p_dots2, p_dots3 = p_ship1.dots, p_ship2.dots, p_ship3.dots
 
 # start_length_ships = [3, 2, 2, 1, 1, 1, 1]
 start_length_ships = [3]
@@ -23,7 +23,7 @@ play = Game(player, player_board, computer, computer_board)
 
 play.greet(start_length_ships)
 play.random_board(start_length_ships)
-
+print(p_ship1.dots)
 # player_board.print_board()
 # computer_board.print_board()
 

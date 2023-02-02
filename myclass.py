@@ -1,5 +1,5 @@
 import random
-
+from accessify import protected
 
 class Dot:
     def __init__(self, y, x):
@@ -19,16 +19,18 @@ class Ship:
         self.length = length
         self.orientation = orientation
         self.lives = length
+        self.dots = self.dots()
 
+    @protected
     def dots(self):
-        _dots = [self.dot]
+        dots = [self.dot]
         if self.length > 1:
             for i in range(1, self.length):
                 if self.orientation == 'h':
-                    _dots.append(Dot(self.dot.y, self.dot.x + i))
+                    dots.append(Dot(self.dot.y, self.dot.x + i))
                 if self.orientation == 'v':
-                    _dots.append(Dot(self.dot.y + i, self.dot.x))
-        return _dots
+                    dots.append(Dot(self.dot.y + i, self.dot.x))
+        return dots
 
 
 class Board:
@@ -39,11 +41,11 @@ class Board:
         self.living_ships = living_ships
         self.hid = hid
 
-    def add_ship(self, dots):  # доработать, добавить исключения размещение вне поля
-        for dot in dots:
+    def add_ship(self, ship):  # доработать, добавить исключения размещение вне поля
+        for dot in ship.dots:
             if self.field[dot.y][dot.x] != 'O':  # checking the ship's location points
                 return False
-        for dot in dots:
+        for dot in ship.dots:
             self.field[dot.y][dot.x] = '■'
 
     def contour(self):
@@ -160,8 +162,7 @@ class Game:
                 a = 0
                 dot = Dot(random.randrange(6), random.randrange(6))
                 ship = Ship(dot, length, random.choice('hv'))
-                dots = ship.dots()
-                for dot in dots:
+                for dot in ship.dots:
                     if not board.out(dot):
                         a = 1
                 if a == 1:
@@ -171,7 +172,7 @@ class Game:
                         continue
                     else:
                         break
-            board.add_ship(dots)
+            board.add_ship(ship)
             board.contour()
         self.ai_board = board
         return True
@@ -191,15 +192,13 @@ class Game:
               'Укажите координаты по "y" и по "x" через пробел.\n'
               'Координаты должны быть в диапазоне от 1 до 6.\n'
               'Укажите расположение Ваших кораблей по вертикали или горизонтали')
-        dots = []
         for length in start_length_ships:
             if length == 3:
                 ship_yx = list(map(int, input(f'введите координаты первой точки "y" и "x" для ■■■: ').split()))
                 orientation = input(f'введите "v" если корабль вертикальный или "h" если горизонтальный: ')
                 dot = Dot(ship_yx[0] - 1, ship_yx[1] - 1)
                 ship = Ship(dot, length, orientation)
-                dots = ship.dots()
-                self.user_board.add_ship(dots)
+                self.user_board.add_ship(ship)
                 self.user_board.contour()
                 self.user_board.print_board()
 
