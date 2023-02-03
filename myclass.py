@@ -166,15 +166,12 @@ class Game:
                 dot = Dot(random.randrange(6), random.randrange(6))
                 ship = Ship(dot, length, random.choice('hv'))
                 for dot in ship.dots:
-                    if not board.out(dot):
+                    if not board.out(dot) or board.field[dot.y][dot.x] != 'O':
                         a = 1
                 if a == 1:
                     continue
                 else:
-                    if board.field[dot.y][dot.x] != 'O':
-                        continue
-                    else:
-                        break
+                    break
             board.add_ship(ship)
             board.contour()
         if board.name_owner == 'player':

@@ -21,8 +21,6 @@ game.random_board(computer_board, start_length_ships)
 player_board.print_board()
 computer_board.print_board()
 
-# НЕ ВСЕ КОРБЛИ ВСТАЮТ В ПОЛЕ СЛУЧАЙНЫМ ОБРАЗОМ!!!
-
 '''
 while True:
     while True:
