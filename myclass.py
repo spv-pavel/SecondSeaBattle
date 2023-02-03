@@ -236,7 +236,22 @@ class Game:
             self.user_board.print_board()
 
     def loop(self):
-        pass
+        while True:
+            if self.user.move():
+                print('check')
+                self.user_board.print_board()
+                self.ai_board.print_board()
+                continue
+            else:
+                break
+        while True:
+            if self.ai.move():
+                print('check')
+                continue
+            else:
+                break
+        self.user_board.print_board()
+        self.ai_board.print_board()
 
     def start(self):
         pass
