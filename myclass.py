@@ -7,8 +7,8 @@ class Dot:
         self.y = y
         self.x = x
 
-    def __str__(self):
-        return f'[y:{self.y} x:{self.x}]'
+    def __repr__(self):
+        return f'[y{self.y},x{self.x}]'
 
     def __eq__(self, other):
         return self.y == other.y and self.x == other.x
@@ -23,6 +23,9 @@ class Ship:
         self.dots = self.dots()
 
     picture = {3: '■■■', 2: '■■', 1: '■'}
+
+    def __repr__(self):
+        return f'ship:{self.picture[self.length]}'
 
     @protected
     def dots(self):
