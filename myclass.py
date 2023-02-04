@@ -19,7 +19,7 @@ class Ship:
         self.dot = dot
         self.length = length
         self.orientation = orientation
-        self.lives = length
+        self.lives = self.dots()
         self.dots = self.dots()
 
     picture = {3: '■■■', 2: '■■', 1: '■'}
@@ -97,6 +97,7 @@ class Board:
             return False
         if self.field[dot.y][dot.x] == '■':
             self.field[dot.y][dot.x] = 'X'
+            # self.ships
             return True
         else:
             self.field[dot.y][dot.x] = 'T'
@@ -174,6 +175,7 @@ class Game:
                     break
             board.add_ship(ship)
             board.contour()
+            board.ships.append(ship)
         if board.name_owner == 'player':
             self.user_board = board
         else:
@@ -235,23 +237,24 @@ class Game:
             self.user_board.contour()
             self.user_board.print_board()
 
-    def loop(self):
+    def loop(self):  # сделать кто ходит первым через случай
         while True:
-            if self.user.move():
-                print('check')
-                self.user_board.print_board()
-                self.ai_board.print_board()
-                continue
-            else:
-                break
-        while True:
-            if self.ai.move():
-                print('check')
-                continue
-            else:
-                break
-        self.user_board.print_board()
-        self.ai_board.print_board()
+            while True:
+                if self.user.move():
+                    print('check')
+                    self.user_board.print_board()
+                    self.ai_board.print_board()
+                    continue
+                else:
+                    break
+            while True:
+                if self.ai.move():
+                    print('check')
+                    continue
+                else:
+                    break
+            self.user_board.print_board()
+            self.ai_board.print_board()
 
     def start(self):
         pass
