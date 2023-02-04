@@ -179,6 +179,7 @@ class Game:
             board.add_ship(ship)
             board.contour()
             board.ships.append(ship)
+            board.living_ships.append(ship)
         if board.name_owner == 'player':
             self.user_board = board
         else:
