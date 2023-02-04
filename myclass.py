@@ -19,8 +19,8 @@ class Ship:
         self.dot = dot
         self.length = length
         self.orientation = orientation
-        self.lives = self.dots()
-        self.dots = self.dots()
+        self.lives = self.dots_protected()
+        self.dots = self.dots_protected()
 
     picture = {3: '■■■', 2: '■■', 1: '■'}
 
@@ -28,7 +28,7 @@ class Ship:
         return f'ship:{self.picture[self.length]}'
 
     @protected
-    def dots(self):
+    def dots_protected(self):
         dots = [self.dot]
         if self.length > 1:
             for i in range(1, self.length):
@@ -99,8 +99,17 @@ class Board:
         if self.field[dot.y][dot.x] == 'X' or self.field[dot.y][dot.x] == 'T':
             return False
         if self.field[dot.y][dot.x] == '■':
-            self.field[dot.y][dot.x] = 'X'
-            # self.ships
+            self.field[dot.y][dot.x] = 'x'  # проверка, первичная установка на доске
+            for ship in self.ships:
+                if dot in ship.dots:
+                    self.ships[self.ships.index(ship)].lives.remove(dot)
+                    self.field[dot.y][dot.x] = 'X'  # окончательная установка на доске
+                    print('hit')
+                    print(len(self.ships[self.ships.index(ship)].lives))
+                    if len(self.ships[self.ships.index(ship)].lives) == 0:
+                        self.living_ships.remove(ship)
+                        print('kill')
+                        print(self.living_ships)
             return True
         else:
             self.field[dot.y][dot.x] = 'T'
@@ -247,7 +256,7 @@ class Game:
         while True:
             while True:
                 if self.user.move():
-                    print('check')
+                    # print('check')
                     self.user_board.print_board()
                     self.ai_board.print_board()
                     continue
@@ -255,7 +264,7 @@ class Game:
                     break
             while True:
                 if self.ai.move():
-                    print('check')
+                    # print('check')
                     continue
                 else:
                     break

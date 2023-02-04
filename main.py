@@ -19,10 +19,10 @@ game = Game(player, player_board, computer, computer_board)
 # game.greet(start_length_ships)
 game.random_board(player_board, start_length_ships)
 game.random_board(computer_board, start_length_ships)
-# player_board.print_board()
-# computer_board.print_board()
+player_board.print_board()
+computer_board.print_board()
 
-# game.loop()
+game.loop()
 
 '''
 while True:
