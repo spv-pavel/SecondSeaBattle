@@ -240,6 +240,8 @@ class Game:
             self.user_board.add_ship(ship)
             self.user_board.contour()
             self.user_board.print_board()
+            self.user_board.ships.append(ship)
+            self.user_board.living_ships.append(ship)
 
     def loop(self):  # сделать кто ходит первым через случай
         while True:
