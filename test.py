@@ -17,4 +17,4 @@ print(ship.lives)
 if len(ship.lives) == 0:
     print('kill')
 
-# 123456
+# 1234561231231
