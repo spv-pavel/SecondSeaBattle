@@ -104,12 +104,10 @@ class Board:
                 if dot in ship.dots:
                     self.ships[self.ships.index(ship)].lives.remove(dot)
                     self.field[dot.y][dot.x] = 'X'  # окончательная установка на доске
-                    print('hit')
-                    print(len(self.ships[self.ships.index(ship)].lives))
+                    # print(len(self.ships[self.ships.index(ship)].lives))
                     if len(self.ships[self.ships.index(ship)].lives) == 0:
                         self.living_ships.remove(ship)
                         print('kill')
-                        print(self.living_ships)
             return True
         else:
             self.field[dot.y][dot.x] = 'T'
@@ -253,23 +251,40 @@ class Game:
             self.user_board.living_ships.append(ship)
 
     def loop(self):  # сделать кто ходит первым через случай
+        victory = ''
         while True:
             while True:
                 if self.user.move():
-                    # print('check')
                     self.user_board.print_board()
                     self.ai_board.print_board()
+                    print(self.ai_board.living_ships)
+                    if len(self.ai_board.living_ships) == 0:
+                        self.user_board.print_board()
+                        self.ai_board.print_board()
+                        victory = 'YOU VICTORY!!!'
+                        print(victory)
+                        break
                     continue
                 else:
                     break
+            if victory != '':
+                break
             while True:
                 if self.ai.move():
-                    # print('check')
+                    print(self.ai_board.living_ships)
+                    if len(self.user_board.living_ships) == 0:
+                        self.user_board.print_board()
+                        self.ai_board.print_board()
+                        victory = 'YOU LOSS!!!'
+                        print(victory)
+                        break
                     continue
                 else:
                     break
             self.user_board.print_board()
             self.ai_board.print_board()
+            if victory != '':
+                break
 
     def start(self):
         pass
