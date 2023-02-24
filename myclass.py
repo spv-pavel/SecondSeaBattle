@@ -250,14 +250,14 @@ class Game:
             self.user_board.ships.append(ship)
             self.user_board.living_ships.append(ship)
 
-    def loop(self):  # сделать кто ходит первым через случай
+    def loop(self):
         victory = ''
         while True:
             while True:
                 if self.user.move():
                     self.user_board.print_board()
                     self.ai_board.print_board()
-                    print(self.ai_board.living_ships)
+                    # print(self.ai_board.living_ships)  # убрать, информация для отладки, кол-во жизней
                     if len(self.ai_board.living_ships) == 0:
                         self.user_board.print_board()
                         self.ai_board.print_board()
@@ -271,7 +271,7 @@ class Game:
                 break
             while True:
                 if self.ai.move():
-                    print(self.ai_board.living_ships)
+                    # print(self.ai_board.living_ships)
                     if len(self.user_board.living_ships) == 0:
                         self.user_board.print_board()
                         self.ai_board.print_board()
@@ -286,5 +286,9 @@ class Game:
             if victory != '':
                 break
 
-    def start(self):
-        pass
+    def start(self, start_length_ships):
+        self.greet(start_length_ships)
+        self.user_board.print_board()
+        self.random_board(self.ai_board, start_length_ships)
+        self.ai_board.print_board()
+        self.loop()
