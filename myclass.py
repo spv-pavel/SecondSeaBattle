@@ -1,6 +1,9 @@
 import random
 from accessify import protected
 
+start_ships = [2]
+# start_ships = [3, 2, 2, 1, 1, 1, 1] # List of ships and their lengths
+
 
 class Dot:
     def __init__(self, y, x):
@@ -74,7 +77,7 @@ class Board:
     def print_board(self):  # доработать, вывод в зависимости от параметра hid
         if self.name_owner == 'player':
             print('поле игрока:')
-        if self.name_owner == 'computer':
+        if self.name_owner == 'ai':
             print('поле компьютера:')
         print('  |', end=' ')
         for i in range(1, len(self.field[0]) + 1):
@@ -169,9 +172,10 @@ class Game:
         self.ai = ai
         self.ai_board = ai_board
 
-    def random_board(self, board, start_length_ships):
+    def random_board(self, board):
+        global start_ships
         board = board
-        for length in start_length_ships:
+        for length in start_ships:
             while True:
                 a = 0
                 dot = Dot(random.randrange(6), random.randrange(6))
@@ -193,13 +197,13 @@ class Game:
             self.ai_board = board
         return True
 
-    def greet(self, start_length_ships):
-
+    def greet(self):
+        global start_ships
         dot = Dot(0, 0)
         ship = Ship(dot, 1)
-        print(f'Вы имеете {len(start_length_ships)} кораблей, из них:')
+        print(f'Вы имеете {len(start_ships)} кораблей, из них:')
         sum_length_ships = {'■■■': 0, '■■': 0, '■': 0}
-        for length in start_length_ships:
+        for length in start_ships:
             if length == 3:
                 sum_length_ships['■■■'] += 1
             if length == 2:
@@ -211,7 +215,7 @@ class Game:
               'Укажите координаты по "y" и по "x" через пробел.\n'
               'Координаты должны быть в диапазоне от 1 до 6.\n'
               'Укажите расположение Ваших кораблей по вертикали или горизонтали')
-        for length in start_length_ships:
+        for length in start_ships:
             while True:
                 a = 0
                 try:
@@ -286,9 +290,9 @@ class Game:
             if victory != '':
                 break
 
-    def start(self, start_length_ships):
-        self.greet(start_length_ships)
+    def start(self):
+        self.greet()
         self.user_board.print_board()
-        self.random_board(self.ai_board, start_length_ships)
+        self.random_board(self.ai_board)
         self.ai_board.print_board()
         self.loop()
