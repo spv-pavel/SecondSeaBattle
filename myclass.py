@@ -7,10 +7,10 @@ class Dot:
         self.y = y
         self.x = x
 
-    def __str__(self):
+    def __repr__(self):
         return f'[y{self.y},x{self.x}]'
 
-    def __eq__(self, other):
+    def __eq__(self, other):  # ???
         return self.y == other.y and self.x == other.x
 
 
@@ -24,7 +24,7 @@ class Ship:
 
     picture = {3: '■■■', 2: '■■', 1: '■'}
 
-    def __str__(self):
+    def __repr__(self):
         return f'ship:{self.picture[self.length]}'
 
     @protected
@@ -107,7 +107,7 @@ class Board:
                     # print(len(self.ships[self.ships.index(ship)].lives))
                     if len(self.ships[self.ships.index(ship)].lives) == 0:
                         self.living_ships.remove(ship)
-                        print('kill')
+                        print('Вы убили корабль противника!!!')
             return True
         else:
             self.field[dot.y][dot.x] = 'T'
@@ -169,8 +169,8 @@ class Game:
         self.ai = ai
         self.ai_board = ai_board
 
-    def random_board(self, board_, start_length_ships):
-        board = board_
+    def random_board(self, board, start_length_ships):
+        board = board
         for length in start_length_ships:
             while True:
                 a = 0
@@ -261,7 +261,7 @@ class Game:
                     if len(self.ai_board.living_ships) == 0:
                         self.user_board.print_board()
                         self.ai_board.print_board()
-                        victory = 'YOU VICTORY!!!'
+                        victory = 'ВЫ ПОБЕДИЛИ!!!'
                         print(victory)
                         break
                     continue
@@ -275,7 +275,7 @@ class Game:
                     if len(self.user_board.living_ships) == 0:
                         self.user_board.print_board()
                         self.ai_board.print_board()
-                        victory = 'YOU LOSS!!!'
+                        victory = 'ВЫ ПРОИГРАЛИ!!!'
                         print(victory)
                         break
                     continue
