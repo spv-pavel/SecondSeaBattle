@@ -8,7 +8,7 @@ player_ships, player_living_ships = [], []
 ai_ships, computer_living_ships = [], []
 
 player_board = Board('player', player_field, player_ships, player_living_ships, True)
-ai_board = Board('ai', ai_field, ai_ships, computer_living_ships, True)
+ai_board = Board('ai', ai_field, ai_ships, computer_living_ships, False)
 player = User(player_board, ai_board)
 ai = AI(ai_board, player_board)
 

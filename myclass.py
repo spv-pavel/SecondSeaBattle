@@ -1,8 +1,7 @@
 import random
 from accessify import protected
 
-start_ships = [2]
-# start_ships = [3, 2, 2, 1, 1, 1, 1] # List of ships and their lengths
+start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
 
 
 class Dot:
@@ -13,7 +12,7 @@ class Dot:
     def __repr__(self):
         return f'[y{self.y},x{self.x}]'
 
-    def __eq__(self, other):  # ???
+    def __eq__(self, other):
         return self.y == other.y and self.x == other.x
 
 
@@ -74,7 +73,7 @@ class Board:
                         if self.field[y - 1][x] != '■':
                             self.field[y - 1][x] = '-'  # up
 
-    def print_board(self):  # доработать, вывод в зависимости от параметра hid
+    def print_board(self):
         if self.name_owner == 'player':
             print('поле игрока:')
         if self.name_owner == 'ai':
@@ -86,7 +85,10 @@ class Board:
         for ny, y in enumerate(range(len(self.field))):
             print(ny + 1, '|', end=' ')
             for x in range(len(self.field[y])):
-                print(self.field[y][x], '|', end=' ')
+                if not self.hid and (self.field[y][x] == '-' or self.field[y][x] == '■'):
+                    print('O', '|', end=' ')
+                else:
+                    print(self.field[y][x], '|', end=' ')
             print('\n', end='')
         return ''
 
@@ -102,12 +104,11 @@ class Board:
         if self.field[dot.y][dot.x] == 'X' or self.field[dot.y][dot.x] == 'T':
             return False
         if self.field[dot.y][dot.x] == '■':
-            self.field[dot.y][dot.x] = 'x'  # проверка, первичная установка на доске
+            self.field[dot.y][dot.x] = 'x'  # verification, initial installation on the board
             for ship in self.ships:
                 if dot in ship.dots:
                     self.ships[self.ships.index(ship)].lives.remove(dot)
-                    self.field[dot.y][dot.x] = 'X'  # окончательная установка на доске
-                    # print(len(self.ships[self.ships.index(ship)].lives))
+                    self.field[dot.y][dot.x] = 'X'  # final installation on the board
                     if len(self.ships[self.ships.index(ship)].lives) == 0:
                         self.living_ships.remove(ship)
                         print('Вы убили корабль противника!!!')
@@ -130,10 +131,9 @@ class Player:
 
 
 class AI(Player):
-    def ask(self):  # доработать логику при следующем ударе после попадания
+    def ask(self):
         while True:
             dot = Dot(random.randrange(6), random.randrange(6))
-            # print('Удар ПК: ', dot)
             if (self.opponent_board.field[dot.y][dot.x] == 'X' or
                     self.opponent_board.field[dot.y][dot.x] == 'T'):
                 continue
@@ -261,7 +261,6 @@ class Game:
                 if self.user.move():
                     self.user_board.print_board()
                     self.ai_board.print_board()
-                    # print(self.ai_board.living_ships)  # убрать, информация для отладки, кол-во жизней
                     if len(self.ai_board.living_ships) == 0:
                         self.user_board.print_board()
                         self.ai_board.print_board()
@@ -275,7 +274,6 @@ class Game:
                 break
             while True:
                 if self.ai.move():
-                    # print(self.ai_board.living_ships)
                     if len(self.user_board.living_ships) == 0:
                         self.user_board.print_board()
                         self.ai_board.print_board()
