@@ -88,6 +88,8 @@ class Board:
         for dot in ship.dots:
             self.field[dot.y][dot.x] = '■'
             self.busy.append(dot)
+        self.ships.append(ship)
+        self.contour(ship)
 
     def contour(self, ship, verb=True):
         near = [(-1, -1), (-1, 0), (-1, 1),
@@ -194,7 +196,6 @@ class Game:
                 else:
                     break
             board.add_ship(ship)
-            board.contour(ship)
             board.ships.append(ship)
             board.living_ships.append(ship)
         if board.name_owner == 'player':
@@ -254,7 +255,6 @@ class Game:
                     else:
                         break
             self.user_board.add_ship(ship)
-            self.user_board.contour(ship)
             print(self.user_board)
             self.user_board.ships.append(ship)
             self.user_board.living_ships.append(ship)
