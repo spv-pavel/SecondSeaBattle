@@ -1,7 +1,8 @@
 import random
 from accessify import protected
 
-start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
+# start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
+start_ships = [2]
 
 
 class Dot:
@@ -42,12 +43,22 @@ class Ship:
 
 
 class Board:
-    def __init__(self, name_owner, field, ships, living_ships, hid=True):
+    def __init__(self, name_owner, hid=False, size=6):
         self.name_owner = name_owner
-        self.field = field
-        self.ships = ships
-        self.living_ships = living_ships
+        self.ships = []
+        self.living_ships = []
         self.hid = hid
+        self.field = [['O'] * size for _ in range(size)]
+
+    def __str__(self):
+        res = ''
+        res += f'поле {self.name_owner}: \n'
+        res += '  | 1 | 2 | 3 | 4 | 5 | 6 |'
+        for i, row in enumerate(self.field):
+            res += f'\n{i + 1} | ' + ' | '.join(row) + ' |'
+        if self.hid:
+            res = res.replace('■', 'O').replace('-', 'O')
+        return res
 
     def add_ship(self, ship):
         for dot in ship.dots:
@@ -72,25 +83,6 @@ class Board:
                     if y - 1 >= 0:
                         if self.field[y - 1][x] != '■':
                             self.field[y - 1][x] = '-'  # up
-
-    def print_board(self):
-        if self.name_owner == 'player':
-            print('поле игрока:')
-        if self.name_owner == 'ai':
-            print('поле компьютера:')
-        print('  |', end=' ')
-        for i in range(1, len(self.field[0]) + 1):
-            print(i, '|', end=' ')
-        print('\n', end='')
-        for ny, y in enumerate(range(len(self.field))):
-            print(ny + 1, '|', end=' ')
-            for x in range(len(self.field[y])):
-                if not self.hid and (self.field[y][x] == '-' or self.field[y][x] == '■'):
-                    print('O', '|', end=' ')
-                else:
-                    print(self.field[y][x], '|', end=' ')
-            print('\n', end='')
-        return ''
 
     @staticmethod
     def out(dot):
@@ -242,7 +234,8 @@ class Game:
                     continue
                 else:
                     if self.user_board.field[dot.y][dot.x] != 'O':
-                        self.user_board.print_board()
+                        # self.user_board.print_board()
+                        print(self.user_board)
                         print('Место занято!!!\n'
                               'Введите через пробел y, x в диапазоне от 1 до 6:')
                         continue
@@ -250,7 +243,8 @@ class Game:
                         break
             self.user_board.add_ship(ship)
             self.user_board.contour()
-            self.user_board.print_board()
+            # self.user_board.print_board()
+            print(self.user_board)
             self.user_board.ships.append(ship)
             self.user_board.living_ships.append(ship)
 
@@ -259,11 +253,15 @@ class Game:
         while True:
             while True:
                 if self.user.move():
-                    self.user_board.print_board()
-                    self.ai_board.print_board()
+                    # self.user_board.print_board()
+                    print(self.user_board)
+                    # self.ai_board.print_board()
+                    print(self.ai_board)
                     if len(self.ai_board.living_ships) == 0:
-                        self.user_board.print_board()
-                        self.ai_board.print_board()
+                        # self.user_board.print_board()
+                        # self.ai_board.print_board()
+                        print(self.user_board)
+                        print(self.ai_board)
                         victory = 'ВЫ ПОБЕДИЛИ!!!'
                         print(victory)
                         break
@@ -275,22 +273,28 @@ class Game:
             while True:
                 if self.ai.move():
                     if len(self.user_board.living_ships) == 0:
-                        self.user_board.print_board()
-                        self.ai_board.print_board()
+                        # self.user_board.print_board()
+                        # self.ai_board.print_board()
+                        print(self.user_board)
+                        print(self.ai_board)
                         victory = 'ВЫ ПРОИГРАЛИ!!!'
                         print(victory)
                         break
                     continue
                 else:
                     break
-            self.user_board.print_board()
-            self.ai_board.print_board()
+            # self.user_board.print_board()
+            # self.ai_board.print_board()
+            print(self.user_board)
+            print(self.ai_board)
             if victory != '':
                 break
 
     def start(self):
         self.greet()
-        self.user_board.print_board()
+        # self.user_board.print_board()
+        print(self.user_board)
         self.random_board(self.ai_board)
-        self.ai_board.print_board()
+        # self.ai_board.print_board()
+        print(self.ai_board)
         self.loop()
