@@ -10,7 +10,7 @@ class Dot:
         self.x = x
 
     def __repr__(self):
-        return f'[y{self.y},x{self.x}]'
+        return f'Dot({self.y},{self.x})'
 
     def __eq__(self, other):
         return self.y == other.y and self.x == other.x
