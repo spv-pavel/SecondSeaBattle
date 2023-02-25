@@ -2,6 +2,24 @@ import random
 from accessify import protected
 
 
+class BoardException(Exception):
+    pass
+
+
+class BoardOutException(BoardException):
+    def __str__(self):
+        return 'Вы пытаетесь выстрелить за доску'
+
+
+class BoardUserException(BoardException):
+    def __str__(self):
+        return 'Вы уже стреляли в эту клетку'
+
+
+class BoardWrongShipException(BoardException):
+    pass
+
+
 class Dot:
     def __init__(self, y, x):
         self.y = y
@@ -64,7 +82,8 @@ class Board:
 
     def add_ship(self, ship):
         for dot in ship.dots:
-            if self.field[dot.y][dot.x] != 'O':
+            if self.out(dot) or dot in self.busy:
+                # raise BoardWrongShipException()
                 return False
         for dot in ship.dots:
             self.field[dot.y][dot.x] = '■'
