@@ -84,7 +84,6 @@ class Board:
                         if self.field[y - 1][x] != '■':
                             self.field[y - 1][x] = '-'  # up
 
-    # @staticmethod
     def out(self, dot):
         return not ((0 <= dot.y < self.size) and (0 <= dot.x < self.size))
 
