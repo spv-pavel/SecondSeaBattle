@@ -83,15 +83,13 @@ class Board:
     def add_ship(self, ship):
         for dot in ship.dots:
             if self.out(dot) or dot in self.busy:
-                # raise BoardWrongShipException()
-                return False
+                raise BoardWrongShipException()
         for dot in ship.dots:
             self.field[dot.y][dot.x] = '■'
             self.busy.append(dot)
         self.ships.append(ship)
         self.contour(ship)
         self.living_ships.append(ship)
-        print(self.ships)
 
     def contour(self, ship, verb=True):
         near = [(-1, -1), (-1, 0), (-1, 1),
