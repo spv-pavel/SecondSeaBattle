@@ -44,10 +44,12 @@ class Board:
         self.name_owner = name_owner
         self.hid = hid
         self.size = size
+        self.count = 0
         self.field = [['O'] * size for _ in range(size)]
         # start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
-        self.start_ships = [2, 2]
+        self.busy = []
         self.ships = []
+        self.start_ships = [2, 2]
         self.living_ships = []
 
     def __str__(self):
@@ -66,23 +68,20 @@ class Board:
                 return False
         for dot in ship.dots:
             self.field[dot.y][dot.x] = '■'
+            self.busy.append(dot)
 
-    def contour(self):
-        for y in range(len(self.field)):
-            for x in range(len(self.field[y])):
-                if self.field[y][x] == '■':
-                    if x + 1 < 6:
-                        if self.field[y][x + 1] != '■':
-                            self.field[y][x + 1] = '-'  # right
-                    if y + 1 < 6:
-                        if self.field[y + 1][x] != '■':
-                            self.field[y + 1][x] = '-'  # down
-                    if x - 1 >= 0:
-                        if self.field[y][x - 1] != '■':
-                            self.field[y][x - 1] = '-'  # left
-                    if y - 1 >= 0:
-                        if self.field[y - 1][x] != '■':
-                            self.field[y - 1][x] = '-'  # up
+    def contour(self, ship, verb=True):
+        near = [(-1, -1), (-1, 0), (-1, 1),
+                (0, -1), (0, 0), (0, 1),
+                (1, -1), (1, 0), (1, 1)
+                ]
+        for dot in ship.dots:
+            for dy, dx in near:
+                cur = Dot(dot.y + dy, dot.x + dx)
+                if not(self.out(cur)) and cur not in self.busy:
+                    if verb:
+                        self.field[cur.y][cur.x] = '-'
+                    self.busy.append(cur)
 
     def out(self, dot):
         return not ((0 <= dot.y < self.size) and (0 <= dot.x < self.size))
@@ -176,7 +175,7 @@ class Game:
                 else:
                     break
             board.add_ship(ship)
-            board.contour()
+            board.contour(ship)
             board.ships.append(ship)
             board.living_ships.append(ship)
         if board.name_owner == 'player':
@@ -236,7 +235,7 @@ class Game:
                     else:
                         break
             self.user_board.add_ship(ship)
-            self.user_board.contour()
+            self.user_board.contour(ship)
             print(self.user_board)
             self.user_board.ships.append(ship)
             self.user_board.living_ships.append(ship)
