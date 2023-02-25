@@ -42,12 +42,13 @@ class Ship:
 class Board:
     def __init__(self, name_owner, hid=False, size=6):
         self.name_owner = name_owner
-        self.ships = []
-        self.living_ships = []
         self.hid = hid
+        self.size = size
         self.field = [['O'] * size for _ in range(size)]
         # start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
-        self.start_ships = [2]
+        self.start_ships = [2, 2]
+        self.ships = []
+        self.living_ships = []
 
     def __str__(self):
         res = ''
@@ -83,14 +84,12 @@ class Board:
                         if self.field[y - 1][x] != '■':
                             self.field[y - 1][x] = '-'  # up
 
-    @staticmethod
-    def out(dot):
-        if dot.y < 0 or dot.y > 5 or dot.x < 0 or dot.x > 5:
-            return False
-        return True
+    # @staticmethod
+    def out(self, dot):
+        return not ((0 <= dot.y < self.size) and (0 <= dot.x < self.size))
 
     def shot(self, dot):
-        if not Board.out(dot):
+        if self.out(dot):
             return False
         if self.field[dot.y][dot.x] == 'X' or self.field[dot.y][dot.x] == 'T':
             return False
@@ -146,7 +145,7 @@ class User(Player):
                 print('Введите две цифры через пробел:')
                 continue
             dot = Dot(hit_yx_[0] - 1, hit_yx_[1] - 1)
-            if not Board.out(dot):
+            if self.opponent_board.out(dot):
                 print('Введите через пробел y, x в диапазоне от 1 до 6:')
                 continue
             if self.opponent_board.field[dot.y][dot.x] == 'X' or self.opponent_board.field[dot.y][dot.x] == 'T':
@@ -171,7 +170,7 @@ class Game:
                 dot = Dot(random.randrange(6), random.randrange(6))
                 ship = Ship(dot, length, random.choice('hv'))
                 for dot in ship.dots:
-                    if not board.out(dot) or board.field[dot.y][dot.x] != 'O':
+                    if board.out(dot) or board.field[dot.y][dot.x] != 'O':
                         a = 1
                 if a == 1:
                     continue
@@ -188,11 +187,11 @@ class Game:
         return True
 
     def greet(self):
-        dot = Dot(0, 0)
-        ship = Ship(dot, 1)
+        dot = Dot(0, 0)  # ?
+        ship = Ship(dot, 1)  # ?
         print(f'Вы имеете {len(self.user_board.start_ships)} кораблей, из них:')
         sum_length_ships = {'■■■': 0, '■■': 0, '■': 0}
-        for length in self.user_board.living_ships:
+        for length in self.user_board.start_ships:
             if length == 3:
                 sum_length_ships['■■■'] += 1
             if length == 2:
@@ -223,7 +222,7 @@ class Game:
                 dot = Dot(ship_yx[0] - 1, ship_yx[1] - 1)
                 ship = Ship(dot, length, orientation)
                 for dot in ship.dots:
-                    if not Board.out(dot):
+                    if self.user_board.out(dot):
                         a = 1
                 if a == 1:
                     print('Корабль вышел за границы игровой доски!!!\n'
