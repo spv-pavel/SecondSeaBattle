@@ -234,7 +234,6 @@ class Game:
                     continue
                 else:
                     if self.user_board.field[dot.y][dot.x] != 'O':
-                        # self.user_board.print_board()
                         print(self.user_board)
                         print('Место занято!!!\n'
                               'Введите через пробел y, x в диапазоне от 1 до 6:')
@@ -243,7 +242,6 @@ class Game:
                         break
             self.user_board.add_ship(ship)
             self.user_board.contour()
-            # self.user_board.print_board()
             print(self.user_board)
             self.user_board.ships.append(ship)
             self.user_board.living_ships.append(ship)
@@ -253,13 +251,9 @@ class Game:
         while True:
             while True:
                 if self.user.move():
-                    # self.user_board.print_board()
                     print(self.user_board)
-                    # self.ai_board.print_board()
                     print(self.ai_board)
                     if len(self.ai_board.living_ships) == 0:
-                        # self.user_board.print_board()
-                        # self.ai_board.print_board()
                         print(self.user_board)
                         print(self.ai_board)
                         victory = 'ВЫ ПОБЕДИЛИ!!!'
@@ -273,8 +267,6 @@ class Game:
             while True:
                 if self.ai.move():
                     if len(self.user_board.living_ships) == 0:
-                        # self.user_board.print_board()
-                        # self.ai_board.print_board()
                         print(self.user_board)
                         print(self.ai_board)
                         victory = 'ВЫ ПРОИГРАЛИ!!!'
@@ -283,8 +275,6 @@ class Game:
                     continue
                 else:
                     break
-            # self.user_board.print_board()
-            # self.ai_board.print_board()
             print(self.user_board)
             print(self.ai_board)
             if victory != '':
@@ -292,9 +282,7 @@ class Game:
 
     def start(self):
         self.greet()
-        # self.user_board.print_board()
         print(self.user_board)
         self.random_board(self.ai_board)
-        # self.ai_board.print_board()
         print(self.ai_board)
         self.loop()
