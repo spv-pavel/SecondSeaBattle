@@ -1,9 +1,6 @@
 import random
 from accessify import protected
 
-# start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
-start_ships = [2]
-
 
 class Dot:
     def __init__(self, y, x):
@@ -49,6 +46,8 @@ class Board:
         self.living_ships = []
         self.hid = hid
         self.field = [['O'] * size for _ in range(size)]
+        # start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
+        self.start_ships = [2]
 
     def __str__(self):
         res = ''
@@ -165,9 +164,8 @@ class Game:
         self.ai_board = ai_board
 
     def random_board(self, board):
-        global start_ships
         board = board
-        for length in start_ships:
+        for length in board.start_ships:
             while True:
                 a = 0
                 dot = Dot(random.randrange(6), random.randrange(6))
@@ -190,12 +188,11 @@ class Game:
         return True
 
     def greet(self):
-        global start_ships
         dot = Dot(0, 0)
         ship = Ship(dot, 1)
-        print(f'Вы имеете {len(start_ships)} кораблей, из них:')
+        print(f'Вы имеете {len(self.user_board.start_ships)} кораблей, из них:')
         sum_length_ships = {'■■■': 0, '■■': 0, '■': 0}
-        for length in start_ships:
+        for length in self.user_board.living_ships:
             if length == 3:
                 sum_length_ships['■■■'] += 1
             if length == 2:
@@ -207,7 +204,7 @@ class Game:
               'Укажите координаты по "y" и по "x" через пробел.\n'
               'Координаты должны быть в диапазоне от 1 до 6.\n'
               'Укажите расположение Ваших кораблей по вертикали или горизонтали')
-        for length in start_ships:
+        for length in self.user_board.start_ships:
             while True:
                 a = 0
                 try:

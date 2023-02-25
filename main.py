@@ -1,8 +1,8 @@
 from myclass import Board, User, AI, Game
 
 
-player_board = Board('игрока', False)
-ai_board = Board('компьютера', True)
+player_board = Board('player', False)
+ai_board = Board('ai', True)
 player = User(player_board, ai_board)
 ai = AI(ai_board, player_board)
 
