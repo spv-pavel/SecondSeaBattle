@@ -26,7 +26,7 @@ class Dot:
         self.x = x
 
     def __repr__(self):
-        return f'Dot({self.y},{self.x})'
+        return f'Dot({self.y + 1},{self.x + 1})'
 
     def __eq__(self, other):
         return self.y == other.y and self.x == other.x
@@ -43,7 +43,7 @@ class Ship:
     picture = {3: '■■■', 2: '■■', 1: '■'}
 
     def __repr__(self):
-        return f'ship:{self.picture[self.length]}'
+        return f'ship:{self.picture[self.length]} {self.dots}'
 
     @protected
     def dots_protected(self):
@@ -90,6 +90,8 @@ class Board:
             self.busy.append(dot)
         self.ships.append(ship)
         self.contour(ship)
+        self.living_ships.append(ship)
+        print(self.ships)
 
     def contour(self, ship, verb=True):
         near = [(-1, -1), (-1, 0), (-1, 1),
@@ -196,8 +198,6 @@ class Game:
                 else:
                     break
             board.add_ship(ship)
-            board.ships.append(ship)
-            board.living_ships.append(ship)
         if board.name_owner == 'player':
             self.user_board = board
         else:
@@ -248,7 +248,7 @@ class Game:
                     continue
                 else:
                     if self.user_board.field[dot.y][dot.x] != 'O':
-                        print(self.user_board)
+                        # print(self.user_board)
                         print('Место занято!!!\n'
                               'Введите через пробел y, x в диапазоне от 1 до 6:')
                         continue
@@ -256,8 +256,6 @@ class Game:
                         break
             self.user_board.add_ship(ship)
             print(self.user_board)
-            self.user_board.ships.append(ship)
-            self.user_board.living_ships.append(ship)
 
     def loop(self):
         victory = ''
