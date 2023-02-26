@@ -37,7 +37,8 @@ class Ship:
         self.dot = dot
         self.length = length
         self.orientation = orientation
-        self.lives = self.dots_protected()
+        # self.lives = self.dots_protected()
+        self.lives = len(self.dots_protected())
         self.dots = self.dots_protected()
 
     picture = {3: '■■■', 2: '■■', 1: '■'}
@@ -56,6 +57,9 @@ class Ship:
                     dots.append(Dot(self.dot.y + i, self.dot.x))
         return dots
 
+    def shooten(self, shot):
+        return shot in self.dots
+
 
 class Board:
     def __init__(self, name_owner, hid=False, size=6):
@@ -67,7 +71,7 @@ class Board:
         # start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
         self.busy = []
         self.ships = []
-        self.start_ships = [2, 2]
+        self.start_ships = [2, 1]
         self.living_ships = []
 
     def __str__(self):
@@ -109,22 +113,26 @@ class Board:
 
     def shot(self, dot):
         if self.out(dot):
-            return False
-        if self.field[dot.y][dot.x] == 'X' or self.field[dot.y][dot.x] == 'T':
-            return False
-        if self.field[dot.y][dot.x] == '■':
-            self.field[dot.y][dot.x] = 'x'  # verification, initial installation on the board
-            for ship in self.ships:
-                if dot in ship.dots:
-                    self.ships[self.ships.index(ship)].lives.remove(dot)
-                    self.field[dot.y][dot.x] = 'X'  # final installation on the board
-                    if len(self.ships[self.ships.index(ship)].lives) == 0:
-                        self.living_ships.remove(ship)
-                        print('Вы убили корабль противника!!!')
-            return True
-        else:
-            self.field[dot.y][dot.x] = 'T'
-            return False
+            raise BoardOutException
+            # return False
+        # if dot in self.busy:
+        #     raise BoardUserException
+        for ship in self.ships:
+            if ship.shooten(dot):
+                ship.lives -= 1
+                self.field[dot.y][dot.x] = 'X'
+                if ship.lives == 0:
+                    self.count += 1
+                    self.contour(ship, verb=True)
+                    self.living_ships.remove(ship)
+                    print('Корабль уничтожен!')
+                    return True
+                else:
+                    print('Корабль ранен!')
+                    return True
+        self.field[dot.y][dot.x] = 'T'
+        print('Мимо!')
+        return False
 
 
 class Player:
@@ -147,6 +155,7 @@ class AI(Player):
                     self.opponent_board.field[dot.y][dot.x] == 'T'):
                 continue
             else:
+                print(f'Удар AI y, x: {dot.y + 1, dot.x + 1}')
                 break
         return dot
 
@@ -262,9 +271,10 @@ class Game:
                 if self.user.move():
                     print(self.user_board)
                     print(self.ai_board)
+                    # print(self.ai_board.living_ships)
                     if len(self.ai_board.living_ships) == 0:
-                        print(self.user_board)
-                        print(self.ai_board)
+                        print(self.user_board)  # ?
+                        print(self.ai_board)  # ?
                         victory = 'ВЫ ПОБЕДИЛИ!!!'
                         print(victory)
                         break
