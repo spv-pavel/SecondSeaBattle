@@ -92,7 +92,7 @@ class Board:
             self.field[dot.y][dot.x] = '■'
             self.busy.append(dot)
         self.ships.append(ship)
-        self.contour(ship)
+        self.contour(ship, False)
         self.living_ships.append(ship)
 
     def contour(self, ship, verb=True):
@@ -105,7 +105,7 @@ class Board:
                 cur = Dot(dot.y + dy, dot.x + dx)
                 if not(self.out(cur)) and cur not in self.busy:
                     if verb:
-                        self.field[cur.y][cur.x] = '-'
+                        self.field[cur.y][cur.x] = '*'
                     self.busy.append(cur)
 
     def out(self, dot):
@@ -117,6 +117,9 @@ class Board:
             # return False
         # if dot in self.busy:
         #     raise BoardUserException
+        print(self.busy)
+        self.busy.append(dot)
+        print(self.busy)
         for ship in self.ships:
             if ship.shooten(dot):
                 ship.lives -= 1
@@ -179,7 +182,8 @@ class User(Player):
             if self.opponent_board.out(dot):
                 print('Введите через пробел y, x в диапазоне от 1 до 6:')
                 continue
-            if self.opponent_board.field[dot.y][dot.x] == 'X' or self.opponent_board.field[dot.y][dot.x] == 'T':
+            if dot in self.opponent_board.busy:
+            # if self.opponent_board.field[dot.y][dot.x] == 'X' or self.opponent_board.field[dot.y][dot.x] == 'T':
                 print('Повтор, введите другие координаты y, x:')
                 continue
             break
@@ -307,4 +311,6 @@ class Game:
         print(self.user_board)
         self.random_board(self.ai_board)
         print(self.ai_board)
+        self.user_board.begin()
+        self.ai_board.begin()
         self.loop()
