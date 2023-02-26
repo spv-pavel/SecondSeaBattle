@@ -141,7 +141,6 @@ class Board:
 
 class Player:
     def __init__(self, opponent_board):
-        # self.self_board = self_board
         self.opponent_board = opponent_board
 
     def ask(self):
