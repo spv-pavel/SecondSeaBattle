@@ -71,7 +71,7 @@ class Board:
         # start_ships = [3, 2, 2, 1, 1, 1, 1]  # List of ships and their lengths
         self.busy = []
         self.ships = []
-        self.start_ships = [2, 1]
+        self.start_ships = [2]
         self.living_ships = []
 
     def __str__(self):
@@ -117,9 +117,7 @@ class Board:
             # return False
         # if dot in self.busy:
         #     raise BoardUserException
-        print(self.busy)
         self.busy.append(dot)
-        print(self.busy)
         for ship in self.ships:
             if ship.shooten(dot):
                 ship.lives -= 1
@@ -142,15 +140,19 @@ class Board:
 
 
 class Player:
-    def __init__(self, self_board, opponent_board):
-        self.self_board = self_board
+    def __init__(self, opponent_board):
+        # self.self_board = self_board
         self.opponent_board = opponent_board
 
     def ask(self):
-        pass
+        raise NotImplementedError
 
     def move(self):
-        return self.opponent_board.shot(self.ask())
+        while True:
+            try:
+                return self.opponent_board.shot(self.ask())
+            except BoardException as e:
+                print(e)
 
 
 class AI(Player):
@@ -183,7 +185,6 @@ class User(Player):
                 print('Введите через пробел y, x в диапазоне от 1 до 6:')
                 continue
             if dot in self.opponent_board.busy:
-            # if self.opponent_board.field[dot.y][dot.x] == 'X' or self.opponent_board.field[dot.y][dot.x] == 'T':
                 print('Повтор, введите другие координаты y, x:')
                 continue
             break
