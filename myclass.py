@@ -134,6 +134,9 @@ class Board:
         print('Мимо!')
         return False
 
+    def begin(self):
+        self.busy = []
+
 
 class Player:
     def __init__(self, self_board, opponent_board):
