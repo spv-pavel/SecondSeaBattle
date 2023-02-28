@@ -62,7 +62,7 @@ class Ship:
 
 
 class Board:
-    def __init__(self, name_owner, hid=False, size=6):
+    def __init__(self, name_owner: str, hid=False, size=6):
         self.name_owner = name_owner
         self.hid = hid
         self.size = size
@@ -84,7 +84,7 @@ class Board:
             res = res.replace('■', 'O').replace('-', 'O')
         return res
 
-    def add_ship(self, ship):
+    def add_ship(self, ship: Ship):
         for dot in ship.dots:
             if self.out(dot) or dot in self.busy:
                 raise BoardWrongShipException()
@@ -95,7 +95,7 @@ class Board:
         self.contour(ship, False)
         self.living_ships.append(ship)
 
-    def contour(self, ship, verb=True):
+    def contour(self, ship: Ship, verb=True):
         near = [(-1, -1), (-1, 0), (-1, 1),
                 (0, -1), (0, 0), (0, 1),
                 (1, -1), (1, 0), (1, 1)
@@ -108,10 +108,10 @@ class Board:
                         self.field[cur.y][cur.x] = '*'
                     self.busy.append(cur)
 
-    def out(self, dot):
+    def out(self, dot: Dot):
         return not ((0 <= dot.y < self.size) and (0 <= dot.x < self.size))
 
-    def shot(self, dot):
+    def shot(self, dot: Dot):
         if self.out(dot):
             raise BoardOutException
             # return False
@@ -140,7 +140,7 @@ class Board:
 
 
 class Player:
-    def __init__(self, opponent_board):
+    def __init__(self, opponent_board: Board):
         self.opponent_board = opponent_board
 
     def ask(self):
@@ -191,13 +191,13 @@ class User(Player):
 
 
 class Game:
-    def __init__(self, user, user_board, ai, ai_board):
+    def __init__(self, user: User, user_board: Board, ai: AI, ai_board: Board):
         self.user = user
         self.user_board = user_board
         self.ai = ai
         self.ai_board = ai_board
 
-    def random_board(self, board):
+    def random_board(self, board: Board):
         board = board
         for length in board.start_ships:
             while True:
